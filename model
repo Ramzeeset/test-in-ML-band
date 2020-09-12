@@ -4,7 +4,8 @@ import collections
 import math
 import pymorphy2
 
-    
+# Функция, которая подсчитывает td-idf слов и записывает слова со значением td-idf > 0.03
+
 def calculation_tfidf(array):
     
     def description_processing(line):
@@ -62,10 +63,12 @@ def calculation_tfidf(array):
         documents_list.append(tf_idf_dictionary)
 
     return documents_list
-    
+ 
+# Функция, которая принимает в себя строку, леммитизирует её слова и выдаёт list слов
+
 def lemmatize(text):
 
-    words = text.split() # разбиваем текст на слова
+    words = text.split()
     
     res = list()
     
@@ -77,13 +80,15 @@ def lemmatize(text):
 
     return res
     
-morph = pymorphy2.MorphAnalyzer()
+morph = pymorphy2.MorphAnalyzer() #Анализатор
 
 data_train = pd.read_csv('train.csv')
 
 data = data_train['name'] + ' ' + data_train['description']
 
-big = calculation_tfidf(data)
+big = calculation_tfidf(data) #Применение первой функции к train sets
+
+#Создаём словарь, в который будем записывать самые популярные слова для каждой из 13 категорий 
 
 best = {'Менеджер': {},
         'Искусство': {},
@@ -98,6 +103,8 @@ best = {'Менеджер': {},
         'Право': {},
         'Учитель': {},
         'Агент': {}}
+        
+#Вбиваем в каждый из ключей словаря best по словарю, в котором key - это некоторое слово, а values - сколько раз это слово встретилось в описании
 
 for i in range(0, len(big)):
     for key in big[i].keys():
@@ -107,6 +114,8 @@ for i in range(0, len(big)):
         else:
             (best.get(data_train['category'][i])).update({key: (best.get(data_train['category'][i])).get(key) + 1})
             
+#Создаём лист листов с самыми популярными словами для каждой категорий
+
 best_list = []
 
 for big_key in best.keys():
@@ -128,6 +137,8 @@ for big_key in best.keys():
 data_test = pd.read_csv('test.csv')
 
 data_test =  data_test['name'] + ' ' + data_test['description']
+
+#Сама модель 
 
 pred = []
 for i in range(0, len(data_test)):
