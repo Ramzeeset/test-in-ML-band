@@ -86,7 +86,7 @@ data_train = pd.read_csv('train.csv')
 
 data = data_train['name'] + ' ' + data_train['description']
 
-big = calculation_tfidf(data) #Применение первой функции к train sets
+big = calculation_tfidf(data) #Применение первой функции к train set
 
 #Создаём словарь, в который будем записывать самые популярные слова для каждой из 13 категорий 
 
