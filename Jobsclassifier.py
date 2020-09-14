@@ -90,7 +90,6 @@ class Jobsclassifier:
     def predict(self, X):
         
         pred = []
-        morph = pymorphy2.MorphAnalyzer() 
         for i in range(0, len(X)):
             a = 0
             k = []
